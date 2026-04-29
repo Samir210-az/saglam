@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Ağıllı Arıqlama | 20+ yaş üçün fərdi plan</title>
+    <!-- html2canvas (şəkil çıxarışı üçün) -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+            background: linear-gradient(145deg, #0b170b, #121f10);
+            min-height: 100vh;
+            padding: 1.5rem;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'), radial-gradient(circle at 20% 30%, rgba(255,140,66,0.08) 0%, rgba(0,0,0,0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .main-card {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(18, 26, 16, 0.92);
+            backdrop-filter: blur(4px);
+            border-radius: 2.5rem;
+            overflow: hidden;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 140, 66, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+        .athletic-header {
+            background: linear-gradient(95deg, #1e2c1c, #2f462a);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #e67e22;
+        }
+        .title h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #FFE3B5;
+            letter-spacing: -0.5px;
+        }
+        .title p {
+            color: #c7e0bc;
+            font-size: 0.75rem;
+        }
+        .by {
+            font-size: 0.85rem;
+            color: #ffc285;
+            background: #00000040;
+            padding: 5px 15px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+        .selection-panel {
+            background: #1f2c1cbb;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #3c5534;
+        }
+        .input-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        .input-field {
+            flex: 1;
+            min-width: 130px;
+        }
+        .input-field label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #FFD9A5;
+            font-size: 0.8rem;
+        }
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 60px;
+            border: none;
+            background: #2c3d26;
+            color: white;
+            font-weight: 500;
+            outline: none;
+            border: 1px solid #e67e2266;
+            font-family: inherit;
+        }
+        .btn-create, .btn-image, .btn-html {
+            border: none;
+            padding: 10px 22px;
+            border-radius: 60px;
+            font-weight: 800;
+            color: white;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.1s;
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+        .btn-create {
+            background: #e67e22;
+            box-shadow: 0 4px 0 #9b4a0e;
+        }
+        .btn-create:active { transform: translateY(2px); box-shadow: 0 2px 0 #9b4a0e; }
+        .btn-image {
+            background: #2a6f8f;
+            box-shadow: 0 4px 0 #154c63;
+        }
+        .btn-image:active { transform: translateY(2px); box-shadow: 0 2px 0 #154c63; }
+        .btn-html {
+            background: #8e5a2a;
+            box-shadow: 0 4px 0 #5e3a1a;
+        }
+        .btn-html:active { transform: translateY(2px); box-shadow: 0 2px 0 #5e3a1a; }
+        
+        .result-area {
+            padding: 1.8rem;
+            background: #faf9f0;
+            display: none;
+            border-radius: 2rem 2rem 0 0;
+            color: #1e2a1a;
+        }
+        .result-area.show { display: block; }
+        .param-header {
+            background: #eef1e6;
+            border-radius: 1.5rem;
+            padding: 0.8rem 1.2rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            align-items: center;
+            border: 1px solid #dadfc8;
+        }
+        .param-item {
+            background: white;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: visible;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .stat-pills {
+            background: #eef1e6;
+            border-radius: 1.5rem;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-pill {
+            background: white;
+            border-radius: 40px;
+            padding: 5px 15px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 1.2rem 0 0.8rem;
+            border-left: 5px solid #e67e22;
+            padding-left: 1rem;
+        }
+        .meal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .meal-card {
+            background: white;
+            border-radius: 1.2rem;
+            padding: 1rem;
+            border-top: 3px solid #e67e22;
+        }
+        .exercise-card {
+            background: #ffffffd9;
+            border-radius: 1.2rem;
+            padding: 0.8rem 1rem;
+            margin: 0.6rem 0;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .week-item {
+            background: #fffdf5;
+            border-radius: 1rem;
+            margin-bottom: 0.8rem;
+            border: 1px solid #e6ddc4;
+        }
+        .week-header {
+            background: #2c5e2a;
+            color: white;
+            padding: 0.7rem 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+        .week-detail {
+            padding: 0.8rem 1.2rem;
+            display: none;
+            background: #ffffffec;
+            line-height: 1.5;
+        }
+        .week-detail.show-detail { display: block; }
+        .footer-rights {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 0.8rem;
+            font-size: 0.7rem;
+            color: #5f7357;
+            border-top: 1px solid #d9e0ce;
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+        @media (max-width: 680px) {
+            .selection-panel, .result-area { padding: 1rem; }
+            .athletic-header { padding: 0.8rem; }
+            .param-item, .stat-pill { white-space: normal; }
+        }
+    </style>
+</head>
+<body>
+<div class="main-card">
+    <div class="athletic-header">
+        <div class="title">
+            <h1><i class="fas fa-brain"></i> Ağıllı Arıqlama Proqramı</h1>
+            <p>20+ yaş üçün adaptiv sistem | Yüngül hərəkət + fərdi menyu</p>
+        </div>
+        <div class="by"><i class="fab fa-instagram"></i> @s_akhundoff</div>
+    </div>
+
+    <div class="selection-panel">
+        <div class="input-row">
+            <div class="input-field"><label><i class="fas fa-calendar-alt"></i> Yaş (30+)</label><input type="number" id="age" value="42"></div>
+            <div class="input-field"><label><i class="fas fa-ruler"></i> Boy (sm)</label><input type="number" id="height" value="173"></div>
+            <div class="input-field"><label><i class="fas fa-weight-hanging"></i> Çəki (kq)</label><input type="number" id="weight" value="107" step="0.5"></div>
+            <div class="input-field"><label><i class="fas fa-venus-mars"></i> Cins</label><select id="gender"><option value="male">Kişi</option><option value="female">Qadın</option></select></div>
+        </div>
+        <div class="button-group">
+            <button class="btn-create" id="generateBtn"><i class="fas fa-dumbbell"></i> Proqramı Yarat</button>
+            <button class="btn-image" id="saveImageBtn"><i class="fas fa-camera"></i> Şəkil (PNG)</button>
+            <button class="btn-html" id="downloadHtmlBtn"><i class="fas fa-file-code"></i> HTML faylı</button>
+        </div>
+    </div>
+
+    <div id="resultArea" class="result-area">
+        <div id="dynamicPlanContent"></div>
+        <div class="footer-rights"><i class="fas fa-copyright"></i> 2025 Bütün hüquqlar qorunur.</div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // LocalStorage funksiyaları
+        function saveParams() {
+            localStorage.setItem('FitAge', document.getElementById('age').value);
+            localStorage.setItem('FitHeight', document.getElementById('height').value);
+            localStorage.setItem('FitWeight', document.getElementById('weight').value);
+            localStorage.setItem('FitGender', document.getElementById('gender').value);
+        }
+        function loadParams() {
+            if(localStorage.getItem('FitAge')) document.getElementById('age').value = localStorage.getItem('FitAge');
+            if(localStorage.getItem('FitHeight')) document.getElementById('height').value = localStorage.getItem('FitHeight');
+            if(localStorage.getItem('FitWeight')) document.getElementById('weight').value = localStorage.getItem('FitWeight');
+            if(localStorage.getItem('FitGender')) document.getElementById('gender').value = localStorage.getItem('FitGender');
+        }
+
+        function calculateBMR(age, heightCm, weightKg, gender) {
+            if(gender === 'male') return (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5;
+            else return (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161;
+        }
+        function getMaintenance(bmr) { return Math.round(bmr * 1.375); }
+        function getLossCalories(maintenance) {
+            let def = 450;
+            if(maintenance - def < 1450) def = 320;
+            return Math.round(maintenance - def);
+        }
+
+        // Azərbaycan mətbəxinə uyğun geniş menyu (hər bölmədə 6 variant)
+        function getMealPlanByWeight(weightKg, targetCal, age, gender) {
+            let group = "moderate";
+            if(weightKg >= 120) group = "heavy";
+            else if(weightKg >= 100) group = "over";
+            
+            const meals = {
+                moderate: {
+                    breakfast: [
+                        "Yulaf ezmesi (40q) + az yağlı qatıq + 1 ovuc giləmeyvə + 10 qoz",
+                        "2 ədəd çörək pendirsiz yumurta + yaşıl çay + pomidor/xıyar",
+                        "Kəsmik (150q) + darçın + 1 ədəd alma",
+                        "Qatıqla qarışdırılmış qarabaşaq (30q) + quru meyvələr",
+                        "Omlet (2 yumurta + ispanaq + pomidor) + 1 tam taxıl tost",
+                        "Süd və yulaf kəpəyi ilə smoothie (banan, qatıq)"
+                    ],
+                    lunch: [
+                        "Toyuq döşü (120q) + qəhvəyi düyü (40q) + bol tərəvəz salatı",
+                        "Balıq (150q alabalıq) + buxarda brokoli + limon sousu",
+                        "Mərci kotleti (3 ədəd) + qatıq + kükürdlü tərəvəz",
+                        "Türkiyə kotleti (130q) + qarabaşaq yarması (45q)",
+                        "Lobya yeməyi (150q) + 2 ədəd tam taxıl çörəyi",
+                        "Küftə bozbaş (yağsız) + tərəvəz salatı"
+                    ],
+                    dinner: [
+                        "Kəsmik (150q) + göyərti + xıyar",
+                        "Omlet (2 yumurta + göbələk + yaşıl bibər)",
+                        "Qızılbalıq (120q) + buxarda qulançar",
+                        "Tərəvəzli kəsmik güveç (200q)",
+                        "Süd məhsulları ilə hazırlanmış yüngül dovğa",
+                        "Buxarda toyuq rulonu + tərəvəz"
+                    ],
+                    snack: [
+                        "1 alma + 10 badam",
+                        "1 stəkan kefir + 4 qoz",
+                        "1 portağal + 2 qarğıdalı çörəyi",
+                        "Qaynadılmış yumurta + turşu xıyar",
+                        "Ev yoğurdu (120q) + darçın",
+                        "1 xurma + 2 ədəd qoz"
+                    ]
+                },
+                over: {
+                    breakfast: [
+                        "Yulaf (45q) + protein tozu + toxum qarışığı",
+                        "3 yumurta ağı + 1 bütün yumurta + tam taxıl tost",
+                        "Kəsmik (180q) + kətan toxumu + yarım banan",
+                        "Qarabaşaq (30q) + qatıq + giləmeyvə",
+                        "2 yumurta + yulaf kəpəyi ilə omlet",
+                        "Şəkərsiz qatıq (150q) + qoz + çia toxumu"
+                    ],
+                    lunch: [
+                        "Toyuq filesi (150q) + qarğıdalı + rukkola salatı",
+                        "Mal əti (120q yağsız) + buxarda tərəvəz + quinoa (50q)",
+                        "Dəniz məhsulları (180q) + salat + limon",
+                        "Lobya yağsız piti (toyuq ilə) + tam taxıl çörəyi",
+                        "Türkiyə qovurması (150q) + qarabaşaq",
+                        "Sağlam küftə (mal+dana) + tərəvəz şorbası"
+                    ],
+                    dinner: [
+                        "Buxarda ağ balıq (150q) + qulançar",
+                        "Kəsmik (180q) + göyərti + turp",
+                        "Tərəvəzli omlet (3 ağ + 1 sarı + ispanaq)",
+                        "Frittata (göbələk + bibər + 2 yumurta)",
+                        "Zeytun yağında tərəvəz + 80q pendir",
+                        "Yüngül şorba (tərəvəz + toyuq suyu)"
+                    ],
+                    snack: [
+                        "1 stəkan ayran + 10 fındıq",
+                        "Yaşıl alma + 1 ç.q fıstıq yağı",
+                        "Şəkərsiz qatıq + bir ovuc giləmeyvə",
+                        "2 qarğıdalı çörəyi + ağ pendir (30q)",
+                        "Protein bar (təbii)",
+                        "1 armud + 2 qoz"
+                    ]
+                },
+                heavy: {
+                    breakfast: [
+                        "Yulaf (50q) + protein tozu + kətan toxumu + 5 qoz",
+                        "Omlet (3 ağ + 1 sarı) + avokado (40q) + tam taxıl çörəyi",
+                        "Kəsmik (200q) + zeytun yağı + darçın + bal (1 ç.q)",
+                        "Çia pudinqi (35q çia, 200ml süd) + moruq",
+                        "4 yumurta ağından omlet + ispanaq + pomidor",
+                        "Kəpəkli lavaş + kəsmik + göyərti"
+                    ],
+                    lunch: [
+                        "Toyuq budu (dərisiz 160q) + qarabaşaq + buxarda tərəvəz",
+                        "Dana əti (140q) + qulançar + şirin kartof (1 əd)",
+                        "Qrildə qızılbalıq (160q) + kahı, rukkola salatı",
+                        "Əzələ əti kyuftə (150q) + tərəvəz şorbası",
+                        "Hindi filesi (150q) + kinoa (50q) + tərəvəz güveç",
+                        "Pomidor sousunda lobya (150q) + qəhvəyi düyü"
+                    ],
+                    dinner: [
+                        "Somon (120q) + şirin kartof püresi",
+                        "Kəsmik (200q) + toxum qarışığı + xıyar",
+                        "Göbələk omlet (3 ağ + 1 sarı, 100q göbələk)",
+                        "Zeytun yağında tərəvəz + 100q yüngül pendir",
+                        "Buxarda hinduşka rulonu + tərəvəz salatı",
+                        "Yüngül dovğa (qatıq + düyü + göyərti)"
+                    ],
+                    snack: [
+                        "Kefir + zeytun yağı + nar dənələri",
+                        "Qoz (4 əd) + portağal",
+                        "Protein bar (təbii)",
+                        "Armud + 2 qoz",
+                        "Şəkərsiz qatıq + darçın + 1 x.q bal",
+                        "1 stəkan yağsız süd + 2 ədəd qarğıdalı çörəyi"
+                    ]
+                }
+            };
+            let selected = meals[group];
+            let extraNote = "";
+            if(gender === 'female') extraNote = " Qadınlar üçün dəmirlə zəngin qidalar (ispanaq, ət) əhəmiyyətlidir.";
+            if(age >= 50) extraNote += " 50+ yaş üçün kalsium və D vitamini əlavəsi tövsiyə olunur.";
+            return {
+                breakfast: selected.breakfast,
+                lunch: selected.lunch,
+                dinner: selected.dinner,
+                snack: selected.snack,
+                groupNote: `${group === 'heavy' ? '120+kq' : (group==='over' ? '100-120 kq' : '80-100 kq')} çəki qrupuna uyğun, gündəlik kalori hədəfi ${targetCal} kcal.${extraNote}`
+            };
+        }
+
+        function getExercisePlan(age, weight) {
+            let baseSteps = (age>55) ? 5000 : (age>40 ? 6200 : 6700);
+            if(weight>110) baseSteps = Math.max(5200, baseSteps-400);
+            let targetSteps = Math.min(9200, baseSteps+1700);
+            let exercises = [
+                { name: "🏋️ Stul oturub-durma", desc: "Düz bir stul qarşısında durun. Əllərinizi öndə birləşdirin. Yavaş-yavaş oturun (kalça stula dəysin) və yenidən ayağa qalxın. Ayaq əzələlərini gücləndirir, gündəlik hərəkətləri asanlaşdırır. 3 dəst x 12 təkrar. Tənəffüs: oturarkən nəfəs alın, qalxarkən verin." },
+                { name: "🧱 Divara təkan", desc: "Divardan bir addım aralı durun. Əllərinizi çiyin genişliyində divara qoyun. Bədəninizi düz tutaraq sinənizi divara yaxınlaşdırın (əlləriniz bükülü) və sonra yavaşca geri qayıdın. Sinə, qol və çiyin əzələlərini işlədir. 3 dəst x 10-12 təkrar. Ağrı hiss edirsinizsə, məsafəni artırın." },
+                { name: "🌉 Qlute körpüsü", desc: "Sırt üstə uzanın, dizlərinizi bükün, ayaqlarınızı yerə basın. Qollar yanlarda. Çanağınızı yuxarı qaldırın, ombanızı sıxın və 2-3 saniyə saxlayın. Sonra yavaşca endirin. Bel ağrılarını azaldır, omba və arxa bud əzələlərini gücləndirir. 3 dəst x 15 təkrar." },
+                { name: "🦵 Yan ayaq qaldırma", desc: "Bir stula və ya divara əllərinizlə tutunaraq düz durun. Sağ ayağınızı yana doğru 45 dərəcə qaldırın, yuxarıda 2 saniyə saxlayın, yavaşca endirin. Sol ayaqla təkrarlayın. Kalça stabilizatorları və budun xarici hissəsi üçün idealdır. Hər ayaq üçün 3 dəst x 12 təkrar." },
+                { name: "🚶 Yerdə zərif qaçış (diz qaldırma)", desc: "Yerində dayanaraq, dizlərinizi 90 dərəcə bükərək qaldırın. Qollarınızı irəli sallayın. Hərəkəti yavaş və nəzarətli edin; ayaqlarınızı yerə yumşaq basın. Ürək-damar sistemini aktivləşdirir, kalori yandırır. 3 dəst x 30 saniyə; dəstlər arası 15 saniyə istirahət." },
+                { name: "🧘 Cat-Cow (pişik-inek) uzanması", desc: "Dörd ayaq üzərində durun (əllər çiyin altında, dizlər omba altında). Nəfəs alarkən belinizi aşağı əyin, başınızı yuxarı qaldırın (inek). Nəfəs verərkən belinizi yuxarı qövsləyin, başınızı aşağı salın (pişik). Bel əzələlərini rahatlaşdırır, çevikliyi artırır. 8-10 təkrar." },
+                { name: "🦶 Topuğu döndərmə", desc: "Bir ayaq üzərində dayanaraq (stula tutunun), digər ayağınızın topuğunu saat əqrəbi istiqamətində 10 dəfə, sonra əksinə 10 dəfə döndərin. Ayaq biləyini gücləndirir, tarazlığı yaxşılaşdırır. Hər ayaq üçün." },
+                { name: "🤸‍♂️ Şalvari dartınma (hamstring stretch)", desc: "Düz oturaraq ayaqlarınızı uzadın. Yavaşca irəli əyilərək ayaq barmaqlarınıza toxunmağa çalışın. Dizlərinizi bükməyin. Arxa bud hissəsini uzadır, bel gərginliyini azaldır. 15-20 saniyə saxlayın, 3 dəfə təkrarlayın." }
+            ];
+            return { dailySteps: `${baseSteps} → ${targetSteps} addım`, exercises, note: "Həftədə 4-5 dəfə, istirahət günlərində parkda yavaş gəzinti. Məşqdən əvvəl 5 dəqiqə istiləşmə (əlləri oynatma, çiyin dairələri) vacibdir. Ağrı hiss edən kimi dayanın." };
+        }
+
+        function getWeeksPlan(targetCal, dailySteps) {
+            const step1 = dailySteps.split('→')[0].trim();
+            const step2 = dailySteps.split('→')[1].trim();
+            return [
+                { title: "🔥 Həftə 1 – Alışma və vərdişlər", detail: `• Şəkərli içkiləri, qənnadı məhsullarını kəsin.\n• Gündə ən az 2 litr su (limonlu ola bilər).\n• Gəzinti: ${step1} addım (təxminən 35-40 dəq).\n• Həftədə 3 gün yuxarıdakı idman hərəkətlərindən 8-10 təkrarlı 2 dəst.\n• Axşam yeməyini saat 19:30-dan gec yeməyin.\n• Nəticə: -1 kq gözlənilir, enerji artımı.` },
+                { title: "⚡ Həftə 2 – Porsiyon nəzarəti", detail: `• Kalori hədəfi ~${targetCal} kcal. Hər boşqabın yarısını tərəvəz, dörddə birini protein, dörddə birini kompleks karbohidrat (qarabaşaq, qəhvəyi düyü) təşkil etsin.\n• Addım sayını ${Math.round(parseInt(step1)*1.1)}-ə çatdırın.\n• İdman hərəkətlərini 3 dəst 12 təkrar səviyyəsinə qaldırın.\n• Qəlyanaltılarınızda şəkərsiz qatıq, meyvə, qoz-fındıq üstünlük verin.\n• Həftədə 2 gün pilləkən çıxma (5-10 dəq) əlavə edin.` },
+                { title: "💪 Həftə 3 – Dayanıqlıq və metabolik dəstək", detail: `• Həftədə 5 dəfə idman edin: dairəvi məşq (6 hərəkət, hər biri 12 təkrar, 3 dövrə). Dövrələr arası 1 dəq istirahət.\n• Gəzinti: ${Math.round(parseInt(step1)*1.25)} → ${step2}.\n• Yeməklərə zəncəfil, darçın, kimyon əlavə edin (metabolizmi dəstəkləyir).\n• Günə ilıq limonlu su ilə başlayın.\n• Karbohidratları günün birinci yarısında (nahara qədər) qəbul edin.` },
+                { title: "🏆 Həftə 4 – Zirvə nəticə və davamlılıq", detail: `• Addım hədəfi: ${step2}. Sürətli gəzinti intervalları tətbiq edin (2 dəq sürətli + 1 dəq yavaş, 8-10 dəfə təkrarlayın).\n• İdman hərəkətlərini 4 dəstə qədər artırın. Hərəkətləri yavaş və nəzarətli edin.\n• Həftədə 1 gün "yüngül gün" (tərəvəz şorbası, kefir, bir meyvə).\n• Bədən ölçülərinizi (bel, qarın) qeyd edin. 1 aylıq nəticə: 3-5 kq itki, daha yaxşı yuxu, azalmış nəfəs darlığı.\n• Bu proqramdan sonra da vərdişləri davam etdirin.` }
+            ];
+        }
+
+        window.toggleWeek = function(idx) {
+            const el = document.getElementById(`weekDetail${idx}`);
+            if(el) el.classList.toggle('show-detail');
+        };
+
+        function buildFullProgram() {
+            // Hər hansı xətanı tutmaq üçün
+            try {
+                let age = parseInt(document.getElementById('age').value);
+                let height = parseInt(document.getElementById('height').value);
+                let weight = parseFloat(document.getElementById('weight').value);
+                let gender = document.getElementById('gender').value;
+                if(isNaN(age) || isNaN(height) || isNaN(weight) || age<18) { 
+                    alert("Düzgün məlumat daxil edin (yaş 18+ olmalıdır)."); 
+                    return; 
+                }
+                saveParams();
+
+                const bmr = calculateBMR(age, height, weight, gender);
+                const maintenance = getMaintenance(bmr);
+                const lossKcal = getLossCalories(maintenance);
+                const targetCal = Math.max(1550, lossKcal);
+                const bmi = (weight / ((height/100)**2)).toFixed(1);
+
+                const mealPlan = getMealPlanByWeight(weight, targetCal, age, gender);
+                const exercisePlan = getExercisePlan(age, weight);
+                const weeks = getWeeksPlan(targetCal, exercisePlan.dailySteps);
+
+                const paramBlock = `<div class="param-header"><span class="param-item"><i class="fas fa-calendar-alt"></i> Yaş: ${age}</span><span class="param-item"><i class="fas fa-ruler"></i> Boy: ${height} sm</span><span class="param-item"><i class="fas fa-weight-hanging"></i> Çəki: ${weight} kq</span><span class="param-item"><i class="fas fa-venus-mars"></i> Cins: ${gender === 'male' ? 'Kişi' : 'Qadın'}</span><span class="param-item"><i class="fas fa-chart-line"></i> BMI: ${bmi}</span></div>`;
+                
+                const breakfastList = mealPlan.breakfast.map(item => `<li><i class="fas fa-egg"></i> ${item}</li>`).join('');
+                const lunchList = mealPlan.lunch.map(item => `<li><i class="fas fa-utensils"></i> ${item}</li>`).join('');
+                const dinnerList = mealPlan.dinner.map(item => `<li><i class="fas fa-moon"></i> ${item}</li>`).join('');
+                const snackList = mealPlan.snack.map(item => `<li><i class="fas fa-apple-alt"></i> ${item}</li>`).join('');
+                
+                const exercisesHtml = exercisePlan.exercises.map(ex => `
+                    <div class="exercise-card">
+                        <i class="fas fa-check-circle" style="color:#e67e22; font-size:1.3rem;"></i>
+                        <div><strong style="font-size:1rem;">${ex.name}</strong><br><span style="font-size:0.85rem; color:#3a4a32;">${ex.desc}</span></div>
+                    </div>
+                `).join('');
+
+                const weeksHtml = weeks.map((wk, idx) => `
+                    <div class="week-item">
+                        <div class="week-header" onclick="toggleWeek(${idx})">
+                            <span><i class="fas fa-calendar-week"></i> ${wk.title}</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="week-detail" id="weekDetail${idx}">
+                            <i class="fas fa-clipboard-list"></i> ${wk.detail.replace(/\n/g,'<br>')}
+                        </div>
+                    </div>
+                `).join('');
+
+                const finalHtml = paramBlock + `
+                    <div class="stat-pills">
+                        <span class="stat-pill"><i class="fas fa-fire"></i> Kalori: ${targetCal} kcal/gün</span>
+                        <span class="stat-pill"><i class="fas fa-heart"></i> BMR: ${Math.round(bmr)} kcal</span>
+                        <span class="stat-pill"><i class="fas fa-shoe-prints"></i> Addım: ${exercisePlan.dailySteps}</span>
+                    </div>
+                    <div class="section-title"><i class="fas fa-apple-alt"></i> Azərbaycan mətbəxinə uyğun geniş menyu</div>
+                    <div class="meal-grid">
+                        <div class="meal-card"><i class="fas fa-sun"></i><h3>Səhər yeməyi variantları</h3><ul>${breakfastList}</ul></div>
+                        <div class="meal-card"><i class="fas fa-utensils"></i><h3>Nahar variantları</h3><ul>${lunchList}</ul></div>
+                        <div class="meal-card"><i class="fas fa-moon"></i><h3>Şam yeməyi variantları</h3><ul>${dinnerList}</ul></div>
+                        <div class="meal-card"><i class="fas fa-carrot"></i><h3>Qəlyanaltı variantları</h3><ul>${snackList}</ul></div>
+                    </div>
+                    <p style="background:#eef2e6; padding:8px 12px; border-radius: 28px;"><i class="fas fa-info-circle"></i> ${mealPlan.groupNote}</p>
+                    <div class="section-title"><i class="fas fa-dumbbell"></i> Yüngül idman fəndləri (ətraflı izah)</div>
+                    <div>${exercisesHtml}</div>
+                    <p style="margin:12px 0; background:#e8f0e2; padding:8px; border-radius:20px;"><i class="fas fa-exclamation-triangle"></i> ${exercisePlan.note}</p>
+                    <div class="section-title"><i class="fas fa-calendar-alt"></i> 1 Aylıq proqram (həftələr üzrə)</div>
+                    <div class="weeks-container">${weeksHtml}</div>
+                    <div style="background:#ffe7ce; border-radius:1rem; padding:0.8rem; margin-top:1rem;">
+                        <i class="fas fa-shield-alt"></i> Xəbərdarlıq: Proqram 20+ yaş üçün hazırlanmışdır. Xroniki xəstəliklərdə (şəkər, hipertoniya, ürək, oynaq problemləri) mütləq həkimə müraciət edin. Məşqlər ağrısız diapazonda aparılmalıdır.
+                    </div>
+                `;
+                document.getElementById('dynamicPlanContent').innerHTML = finalHtml;
+                document.getElementById('resultArea').classList.add('show');
+                for(let i=0; i<weeks.length; i++) {
+                    let detailEl = document.getElementById(`weekDetail${i}`);
+                    if(detailEl) detailEl.classList.remove('show-detail');
+                }
+            } catch(e) {
+                alert("Proqram qurularkən xəta baş verdi: " + e.message);
+            }
+        }
+
+        async function exportAsImage() {
+            const resultDiv = document.getElementById('resultArea');
+            if(!resultDiv.classList.contains('show')) { 
+                alert("Əvvəlcə 'Proqramı Yarat' düyməsini basın."); 
+                return; 
+            }
+            const element = document.getElementById('resultArea');
+            try {
+                const canvas = await html2canvas(element, { scale: 2.5, backgroundColor: '#faf9f0', logging: false });
+                const link = document.createElement('a');
+                link.download = `ariqlama_proqrami_${Date.now()}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            } catch(e) { 
+                alert("Şəkil yaratmaq mümkün olmadı: " + e.message); 
+            }
+        }
+
+        function downloadAsHtml() {
+            const resultDiv = document.getElementById('resultArea');
+            if(!resultDiv.classList.contains('show')) { 
+                alert("Əvvəlcə 'Proqramı Yarat' düyməsini basın."); 
+                return; 
+            }
+            const originalHTML = document.getElementById('dynamicPlanContent').innerHTML;
+            const fullHtmlFile = `<!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <title>Fərdi Arıqlama Proqramı</title>
+                <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+                <style>
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+                    body {
+                        font-family: 'Inter', 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+                        background: linear-gradient(135deg, #0f2b0f, #1a3a1a);
+                        min-height: 100vh;
+                        padding: 2rem;
+                        color: #1e2a1a;
+                    }
+                    .container {
+                        max-width: 1300px;
+                        margin: 0 auto;
+                        background: rgba(255,255,245,0.96);
+                        border-radius: 2rem;
+                        padding: 2rem;
+                        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+                        border: 1px solid #e67e22;
+                    }
+                    .param-header { background: #eef1e6; border-radius: 1.5rem; padding: 0.8rem 1.2rem; margin-bottom: 1.2rem; display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; }
+                    .param-item { background: white; padding: 4px 14px; border-radius: 40px; font-size: 0.9rem; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+                    .stat-pills { background: #eef1e6; border-radius: 1.5rem; padding: 0.8rem 1.2rem; display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
+                    .stat-pill { background: white; border-radius: 40px; padding: 5px 15px; font-weight: 600; white-space: nowrap; }
+                    .section-title { font-size: 1.5rem; font-weight: 800; margin: 1.2rem 0 0.8rem; border-left: 5px solid #e67e22; padding-left: 1rem; }
+                    .meal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1rem; margin: 1rem 0; }
+                    .meal-card { background: white; border-radius: 1.2rem; padding: 1rem; border-top: 3px solid #e67e22; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+                    .exercise-card { background: #f9f9f0; border-radius: 1.2rem; padding: 0.8rem 1rem; margin: 0.6rem 0; display: flex; gap: 12px; align-items: flex-start; }
+                    .week-item { background: #fffdf5; border-radius: 1rem; margin-bottom: 0.8rem; border: 1px solid #e6ddc4; }
+                    .week-header { background: #2c5e2a; color: white; padding: 0.7rem 1rem; font-weight: 800; cursor: pointer; display: flex; justify-content: space-between; }
+                    .week-detail { padding: 0.8rem 1.2rem; background: #ffffffec; line-height: 1.5; display: none; }
+                    .week-detail.show-detail { display: block; }
+                    ul { margin-left: 1.2rem; }
+                    i, .fas, .far { margin-right: 6px; }
+                    .footer-rights { text-align: center; margin-top: 1.5rem; padding: 0.8rem; font-size: 0.7rem; color: #5f7357; border-top: 1px solid #d9e0ce; }
+                    @media (max-width: 680px) { body { padding: 1rem; } .container { padding: 1rem; } .param-item, .stat-pill { white-space: normal; } }
+                </style>
+                <script>
+                    function toggleWeek(idx) {
+                        const el = document.getElementById('weekDetail' + idx);
+                        if(el) el.classList.toggle('show-detail');
+                    }
+                <\/script>
+            </head>
+            <body>
+            <div class="container">
+                <h2 style="color:#2c5e2a; margin-bottom:1rem;"><i class="fas fa-brain"></i> Ağıllı Arıqlama Proqramı (fərdi)</h2>
+                ${originalHTML}
+                <div class="footer-rights"><i class="fas fa-copyright"></i> 2026 Bütün hüquqlar qorunur | @s_akhundoff</div>
+            </div>
+            <script>
+                document.querySelectorAll('.week-header').forEach((header, index) => {
+                    header.addEventListener('click', () => toggleWeek(index));
+                });
+            <\/script>
+            </body>
+            </html>`;
+            const blob = new Blob([fullHtmlFile], { type: 'text/html' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.href = url;
+            link.download = `ariqlama_proqrami_${Date.now()}.html`;
+            document.body.appendChild(link); link.click(); document.body.removeChild(link); URL.revokeObjectURL(url);
+        }
+
+        // Düymələrə hadisə dinləyiciləri əlavə edirik
+        document.getElementById('generateBtn').addEventListener('click', buildFullProgram);
+        document.getElementById('saveImageBtn').addEventListener('click', exportAsImage);
+        document.getElementById('downloadHtmlBtn').addEventListener('click', downloadAsHtml);
+        window.addEventListener('DOMContentLoaded', () => { 
+            loadParams(); 
+            document.getElementById('resultArea').classList.remove('show');
+        });
+    })();
+</script>
+</body>
+</html>
